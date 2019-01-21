@@ -1,0 +1,372 @@
+
+<!doctype html>
+
+ {% block head %}
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Dashboard </title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="../../static/dashboard/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="../../static/dashboard/css/dashboard.css" rel="stylesheet">
+  {% endblock %}
+
+  {% block body %}
+    <nav style="background-color: #2d6bb2" class="navbar navbar-dark fixed-top  flex-md-nowrap p-0 shadow">
+
+      <a class="navbar-brand col-sm-3 col-md-2 mr-0" style="background-color: #2d6bb2" href="#">Konstantinou Ltd</a>
+
+      <ul class="navbar-nav  px-3">
+        <li class="nav-item  text-nowrap">
+          <a class="nav-link " style="color:white;" href="/logout">Sign out</a>
+        </li>
+      </ul>
+    </nav>
+
+    <div class="container-fluid">
+      <div class="row">
+        <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+          <div class="sidebar-sticky">
+            <ul class="nav flex-column">
+              <li class="nav-item">
+                <a class="nav-link active" href="/dashboard">
+                  <span data-feather="home"></span>
+                  Dashboard <span class="sr-only">(current)</span>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#" data-toggle="modal" data-target="#createorder">
+                  <span data-feather="shopping-cart"></span>
+                  Make an Order
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#" data-toggle="modal" data-target="#createemp">
+                  <span data-feather="users"></span>
+                  Add Employee
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#" data-toggle="modal" data-target="#createcomp">
+                  <span data-feather="file"></span>
+                  Add Company
+                </a>
+              </li>
+            </ul>
+          </div>
+        </nav>
+
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+          <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+            <h1 class="h2">Dashboard</h1>
+            <div class="btn-toolbar mb-2 mb-md-0">
+
+            </div>
+          </div>
+
+
+
+            <h2>Employees</h2>
+          <div class="table-responsive ">
+            <table class="table thead-light table-hover table-light table-bordered ">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>FIRST NAME</th>
+                  <th>LAST NAME</th>
+                  <th>PHONE NUMBER</th>
+                  <th>EMAIL</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                 {% for employees in employees %}
+                    <tr >
+
+                        <td> {{ employees.EMP_ID }} </td>
+                        <td> {{ employees.FIRST_NAME }} </td>
+                        <td> {{ employees.LAST_NAME }} </td>
+                        <td> {{ employees.PHONE_NUMBER }} </td>
+                        <td> {{ employees.EMAIL }} </td>
+
+
+
+                      <form action="{{ url_for('remove',wow = employees.EMP_ID) }}" method="post">  <td style="width : 6%"> <button style="background-color: #2D6BB2;color:white;" type="submit" class="btn ">Delete</button>  </form> </td>
+
+                    </tr>
+                {% endfor %}
+
+              </tbody>
+            </table>
+          </div>
+          <h2>Companies</h2>
+          <div class="table-responsive">
+            <table class="table thead-light table-hover table-light table-bordered">
+              <thead>
+                <tr>
+
+                  <th>Company Name</th>
+                  <th>Description</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                 {% for companies in companies %}
+                    <tr>
+
+                        <td> {{ companies.COMPANY_NAME }} </td>
+                        <td> {{ companies.DESCRIPTION }} </td>
+                       <form action="{{ url_for('remove1',wow = companies.COMPANY_NAME) }}" method="post"> <td style="width : 6%">  <button type="submit" style="background-color: #2D6BB2;color:white;" class="btn ">Delete</button>   </td></form>
+
+
+                    </tr>
+                {% endfor %}
+
+              </tbody>
+            </table>
+          </div>
+         <h2>Orders</h2>
+          <div class="table-responsive ">
+            <table class="table thead-light table-hover table-light table-bordered ">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Company Name</th>
+                  <th>Product</th>
+                  <th>Order Made</th>
+                  <th>Delivery</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                 {% for orders in orders %}
+                    <tr>
+                        <td> {{ orders.ORDER_ID }} </td>
+                        <td> {{ orders.COMPANY_NAME }} </td>
+                        <td> {{ orders.PRODUCTS }} </td>
+                        <td> {{ orders.DATEM }} </td>
+                        <td> {{ orders.DATED }} </td>
+                       <form action="{{ url_for('remove2',wow = orders.ORDER_ID) }}" method="post"> <td style="width : 6%"><button type="submit" style="background-color: #2D6BB2;color:white;" class="btn ">Delete</button></td></form>
+
+                    </tr>
+                {% endfor %}
+
+              </tbody>
+            </table>
+          </div>
+
+        </main>
+
+
+      </div>
+    </div>
+
+
+
+
+      {% block modalcreateuser %}
+ <div class="modal fade" id="createemp" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"class="modal" >
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Create New Employee</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+<form action="/createemp" name="createemp" method="post">
+  <div class="form-group row">
+    <label  class="col-sm-2 col-form-label">First Name: </label>
+    <div class="col-sm-10">
+      <input type="text"  class="form-control " name="fname" required>
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-sm-2 col-form-label">Last Name: </label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" name="lname" required>
+    </div>
+  </div>
+ <div class="form-group row">
+    <label class="col-sm-2 col-form-label">Phone Number: </label>
+    <div class="col-sm-10">
+      <input type="tel" class="form-control" name="phone" required>
+    </div>
+  </div>
+ <div class="form-group row">
+    <label class="col-sm-2 col-form-label">Email: </label>
+    <div class="col-sm-10">
+      <input type="email" class="form-control" name="email" required>
+    </div>
+  </div>
+ <div class="form-group row">
+    <label class="col-sm-2 col-form-label">Password: </label>
+    <div class="col-sm-10">
+      <input type="password" class="form-control" name="password" required>
+    </div>
+  </div>
+    <div class="modal-footer">
+        <button onclick="form_submit()" class="btn btn-primary">Create</button>
+
+      </div>
+
+</form>
+</div>
+
+    </div>
+  </div>
+</div>
+      {% endblock %}
+
+
+{% block modalcreatecomp %}
+ <div class="modal fade" id="createcomp" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"class="modal" >
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Add New Company</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+<form action="/createcomp" name="createcomp" method="post">
+  <div class="form-group row">
+    <label  class="col-sm-2 col-form-label">Company Name: </label>
+    <div class="col-sm-10">
+      <input type="text"  class="form-control " name="cname" required>
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-sm-2 col-form-label">Description: </label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" name="description" required>
+    </div>
+  </div>
+
+    <div class="modal-footer">
+        <button onclick="form_submit2()" class="btn btn-primary">Create</button>
+
+      </div>
+
+</form>
+</div>
+
+    </div>
+  </div>
+</div>
+      {% endblock %}
+
+
+
+
+
+{% block modalcreateorder %}
+ <div class="modal fade" id="createorder" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"class="modal" >
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Make an Order</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+<form action="/createorder" name="createorder" method="post">
+  <div class="form-group row">
+    <label  class="col-sm-2 col-form-label">Company Name: </label>
+    <div class="col-sm-10">
+      <select name="cname2">
+	{% for companies in companies %}
+	<option value = {{ companies.COMPANY_NAME }}>{{ companies.COMPANY_NAME }}</option>
+	{% endfor %}
+	</select>
+    </div>
+  </div>
+
+  <div class="form-group row">
+
+    <label class="col-sm-2 col-form-label">Products: </label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" name="products" required>
+    </div>
+  </div>
+<div class="form-group row">
+    <label class="col-sm-2 col-form-label">Send Order: </label>
+    <div class="col-sm-10">
+      <input type="date" class="form-control" name="datem" required>
+    </div>
+  </div>
+<div class="form-group row">
+    <label class="col-sm-2 col-form-label">Order Delivery: </label>
+    <div class="col-sm-10">
+      <input type="date" class="form-control" name="dated" required>
+    </div>
+  </div>
+
+
+    <div class="modal-footer">
+        <button onclick="form_submit3()" class="btn btn-primary">Make an Order</button>
+
+      </div>
+</form>
+  </div>
+
+</div>
+
+
+    </div>
+  </div>
+</div>
+      {% endblock %}
+
+
+
+
+
+
+
+
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script>window.jQuery || document.write('<script src="/js/jquery-slim.min.js"><\/script>')</script>
+    <script src="../../static/dashboard/js/popper.min.js"></script>
+    <script src="../../static/dashboard/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+  function form_submit() {
+    document.getElementById("createemp").submit();
+   }
+  </script>
+
+
+      <script type="text/javascript">
+  function form_submit2() {
+    document.getElementById("createcomp").submit();
+   }
+  </script>
+
+          <script type="text/javascript">
+  function form_submit3() {
+    document.getElementById("createorder").submit();
+   }
+  </script>
+
+    <!-- Icons -->
+    <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
+    <script>
+      feather.replace()
+    </script>
+
+
+  {% endblock %}
