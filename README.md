@@ -1,4 +1,3 @@
 # Flask-Login-Register 
-Simple flask login/register application has some extra stuff
-uses sqlite
-to create a database run the database.py
+A simple Intranet Flask app example 
+With employee Login/Registration, order creation and management
